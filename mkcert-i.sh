@@ -1,14 +1,10 @@
-#!/bin/sh
 
-# Make sure that prerequisits are met
-sudo apt-get install wget curl libnss3-tools
-
-# Download latest released binary
-curl https://github.com/FiloSottile/mkcert/releases/latest | grep "https://github.com/FiloSottile/mkcert/releases/tag/v" | grep -Eo 'https://[^\"]*' | grep -Eo 'v[0-9.]+' | xargs -I"{}" echo https://github.com/FiloSottile/mkcert/releases/download/{}/mkcert-{}-linux-amd64 | xargs -I"{}" wget {} -O /home/$USER/temp/mkcert
+sudo rm /home/$USER/temp/mkcert
+curl https://github.com/FiloSottile/mkcert/releases/latest | grep "https://github.com/FiloSottile/mkcert/releases/tag/v" | grep -Eo 'https://[^\"]*' | grep -Eo 'v[0-9.]+' | xargs -I"{}" echo https://github.com/FiloSottile/mkcert/releases/download/{}/mkcert-{}-linux-amd64 | xargs -I"{}" wget {} -O /tmp/mkcert
 
 # Move it to the path
-sudo cp /home/$USER/temp/mkcert /usr/local/bin/mkcert
-sudo cp /home/$USER/temp/mkcert /home/$USER/.local/share/mkcert
+sudo cp /tmp/mkcert /usr/local/bin/mkcert
+sudo cp /tmp/mkcert /home/$USER/.local/share/mkcert
 
 # Grant execute permissions
 sudo chmod +x /usr/local/bin/mkcert
@@ -18,4 +14,4 @@ sudo chmod +x /home/$USER/.local/share/mkcert
 mkcert -CAROOT
 
 # Cleanup
-sudo rm /home/$USER/temp/mkcert
+sudo rm /tmp/mkcert
